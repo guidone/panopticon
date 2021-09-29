@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { Icon, FlexboxGrid } from 'rsuite';
 
 import { SmallTag, Maps } from '../../../src/components';
@@ -23,8 +22,9 @@ const SecretViewer = ({ record }) => {
   const { payload } = record;
   const { googleMapsKey } = useSettings();
 
-  const expireDate = moment(payload.secret_duration);
-  const now = moment();
+  const expireDate = new Date(payload.secret_duration);
+  const now = new Date();
+  const duration = expireDate.getTime() - now.getTime();
 
   return (
     <div className="secret-viewer">
@@ -37,11 +37,11 @@ const SecretViewer = ({ record }) => {
             <div>
               <b>Revealed when</b>
               <br/>
-              <em>{expireDate.format("dddd, MMMM Do YYYY, h:mm:ss")}</em>
-              {expireDate.isAfter(now) && (
-                <div className="secret-reveal-at">{expireDate.toNow(true)}</div>
+              <em>{expireDate.toLocaleDateString()}, {expireDate.toLocaleTimeString()}</em>
+              {(duration > 0) && (
+                <div className="secret-reveal-at">{Math.round(duration/1000/60)} minutes</div>
               )}
-              {!expireDate.isAfter(now) && (
+              {(duration < 0) && (
                 <div>Secret date is due</div>
               )}
             </div>
