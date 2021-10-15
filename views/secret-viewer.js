@@ -20,7 +20,6 @@ const PinPoint = () => {
 
 const SecretViewer = ({ record }) => {
   const { payload } = record;
-  const { googleMapsKey } = useSettings();
 
   const expireDate = new Date(payload.secret_duration);
   const now = new Date();
@@ -45,6 +44,16 @@ const SecretViewer = ({ record }) => {
                 <div>Secret date is due</div>
               )}
             </div>
+          )}
+          {payload.secret_payment != null && (
+            <>
+              <br/>
+              <b>User paid to reveal the secret</b><br/>
+              <b>Email: </b> {payload.secret_payment.order_info.email}<br />
+              <b>Currency: </b> {payload.secret_payment.currency}<br />
+              <b>Amount: </b> {(payload.secret_payment.total_amount / 100).toFixed(2)}<br />
+              <b>Payment ID: </b> {payload.secret_payment.provider_payment_charge_id}<br />
+            </>
           )}
         </FlexboxGrid.Item>
         <FlexboxGrid.Item colspan={7}>

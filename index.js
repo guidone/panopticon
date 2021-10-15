@@ -4,10 +4,11 @@ import { plug } from 'code-plug';
 import { UserRecords, SmallTag } from '../../src/components';
 import SecretViewer from './views/secret-viewer';
 import { secretColor } from './helpers/secret-color';
+import SecretsMap from './pages/secret-map';
 
 plug('sidebar', null, {
   id: 'wiggle',
-  label: 'Wiggle',
+  label: 'Panopticon',
   icon: 'logo-survey',
   permission: 'wiggle.view',
   options: [
@@ -15,8 +16,22 @@ plug('sidebar', null, {
       id: 'wiggle-secrets',
       label: 'Secrets',
       url: '/secrets',
+    },
+    {
+      id: 'wiggle-secrets-map',
+      label: 'Secrets Map',
+      url: '/secrets-map',
     }
   ]
+});
+// register a page map for all secrets
+plug('pages', SecretsMap, {
+  url: '/secrets-map',
+  title: 'Secrets Map',
+  id: 'secrets-maps',
+
+  permission: 'wiggle.view',
+  breadcrumbs: ['Secrets Map']
 });
 
 // register a page for user records of type survey
@@ -48,9 +63,9 @@ plug(
   null,
   {
     permission: 'wiggle.view',
-    name: 'View Wiggle secret',
-    description: `View secrets stored in Wiggle Bot`,
-    group: 'Wiggle'
+    name: 'View Panopticon secret',
+    description: `View secrets stored in Panopticon Bot`,
+    group: 'Panopticon'
   }
 );
 // register user record type
@@ -61,11 +76,14 @@ plug(
     type: 'secret',
     name: 'Secret',
     list: `Secrets`,
-    description: 'List of Wiggle secrets',
+    description: 'List of Panopticon secrets',
     form: SecretViewer,
     status: [
-      { value: 'new', label: 'New' },
-      { value: 'expired', label: 'Expired' },
+      { value: 'private', label: 'Private' },
+      { value: 'public', label: 'Public' },
+      { value: 'crazy', label: 'Crazy' },
+      { value: 'keyholder-free', label: 'Keyholder free' },
+      { value: 'keyholder-taken', label: 'Keyholder taken' }
     ]
   }
 );
