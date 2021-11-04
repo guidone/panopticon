@@ -45,6 +45,11 @@ const SecretViewer = ({ record }) => {
               )}
             </div>
           )}
+          {payload.secret_bounty != null && (
+            <>
+              <b>ICE price:</b> {payload.secret_bounty} EUR<br/>
+            </>
+          )}
           {payload.secret_payment != null && (
             <>
               <br/>
